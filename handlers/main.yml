@@ -1,3 +1,6 @@
 ---
 
+- name: Change vagrant password
+  shell: echo  'vagrant:vagrant' | chpasswd
+
 - include: provider-vbox.yml

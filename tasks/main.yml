@@ -13,6 +13,7 @@
     comment='vagrant'
     shell=/bin/bash
     state=present
+  notify: Change vagrant password
 
 - name: copy vagrant keys
   copy:
@@ -20,14 +21,16 @@
     dest=/home/vagrant/.ssh
     owner=vagrant
     group=vagrant
-
-- name: add ansible key
+  notify: Change vagrant password
+  
+- name: Authorize vagrant key
   authorized_key:
     user=vagrant
     key='{{item}}'
     manage_dir=yes
   with_file:
     - home/vagrant/.ssh/id_rsa.pub
+  notify: Change vagrant password
 
 - name: create vagrant sudo
   copy:
@@ -36,12 +39,10 @@
     owner=root
     group=root
     mode=0640
+  notify: Change vagrant password
 
 - name: configure sshd
   lineinfile:
     dest=/etc/ssh/sshd_config
     line='UseDNS no'
     insertafter=EOF
-
-- name: change passwords
-  shell: echo  'vagrant:vagrant' | chpasswd
