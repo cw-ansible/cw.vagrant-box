@@ -35,7 +35,7 @@ integrated with Virtual Box.
 
 ### Rant
 
-Since *DKMS( is not able to build pure-binary modules, and we don't want to
+Since *DKMS* is not able to build pure-binary modules, and we don't want to
 waste space with a compilier tool-chain we need to compile *VirtualBox*
 additions, and install kernel modules inside the module load path manually.
 
