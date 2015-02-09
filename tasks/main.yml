@@ -1,0 +1,47 @@
+---
+
+- include: provider-vbox.yml
+
+- name: install OpenSSH server
+  apt: pkg='{{item}}' install_recommends=no update_cache=yes cache_valid_time=3600
+  with_items:
+    - openssh-server
+
+- name: create vagrant user
+  user:
+    name=vagrant
+    comment='vagrant'
+    shell=/bin/bash
+    state=present
+
+- name: copy vagrant keys
+  copy:
+    src=home/vagrant/.ssh/
+    dest=/home/vagrant/.ssh
+    owner=vagrant
+    group=vagrant
+
+- name: add ansible key
+  authorized_key:
+    user=vagrant
+    key='{{item}}'
+    manage_dir=yes
+  with_file:
+    - home/vagrant/.ssh/id_rsa.pub
+
+- name: create vagrant sudo
+  copy:
+    src=etc/sudoers.d/vagrant
+    dest=/etc/sudoers.d/vagrant
+    owner=root
+    group=root
+    mode=0640
+
+- name: configure sshd
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    line='UseDNS no'
+    insertafter=EOF
+
+- name: change passwords
+  shell: echo  'vagrant:vagrant' | chpasswd

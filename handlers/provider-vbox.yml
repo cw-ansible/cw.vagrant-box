@@ -1,0 +1,55 @@
+---
+
+# This is a *UGLY* hack
+
+# Since DKMS is not able to build pure-binary modules, and we don't want to
+# waste space with a compilier tool-chain we need to compile VirtualBox
+# addition, and install kernel modules inside the module load path manually.
+
+# A bug (and a fix-path) has been submitted, but no one seems to be
+# interested in it (and providing full binary packages).
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=554843
+
+- name: install virtualbox kernel builders
+  apt: pkg='{{item}}' install_recommends=no update_cache=yes cache_valid_time=3600
+  with_items:
+    - virtualbox-guest-dkms
+    - linux-headers-generic
+  notify: Create vbox kernel module directory
+
+- name: Create vbox kernel module directory
+  shell: mkdir -p /lib/modules/`uname -r`/kernel/vbox
+  notify: copy virtualbox kernel modules
+
+- name: copy virtualbox kernel modules
+  shell:
+    cp /lib/modules/`uname -r`/updates/dkms/vbox*.ko /lib/modules/`uname -r`/kernel/vbox
+  notify: remove build packages
+
+- name: remove build packages
+  apt: pkg='{{ item }}' purge=yes state=removed
+  with_items:
+    - binutils
+    - cpp 
+    - cpp-4.8 
+    - dkms 
+    - gcc 
+    - gcc-4.8 
+    - libasan0 
+    - libatomic1 
+    - libcloog-isl4 
+    - libgcc-4.8-dev 
+    - libgmp10 
+    - libgomp1 
+    - libisl10 
+    - libitm1 
+    - libmpc3 
+    - libmpfr4 
+    - libquadmath0 
+    - libtsan0 
+    - linux-headers-3.11.0-12 
+    - linux-headers-3.11.0-12-generic 
+    - linux-headers-generic 
+    - make 
+    - patch 
+    - virtualbox-guest-dkms
