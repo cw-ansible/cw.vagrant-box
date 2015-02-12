@@ -4,7 +4,8 @@
   shell:
     ls -1 -X /lib/modules/ | sort -g
   changed_when: False
-
+  register: virtual_box_installed_kernel
+  
 - name: Mount /proc
   command:
     mount -t proc proc /proc
