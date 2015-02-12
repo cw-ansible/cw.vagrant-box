@@ -48,8 +48,8 @@
     - libmpfr4 
     - libquadmath0 
     - libtsan0 
+    - 'linux-headers-{{ virtual_box_installed_kernel.stdout_lines[-1] | regex_replace("-generic$", "")}}'
     - 'linux-headers-{{ virtual_box_installed_kernel.stdout_lines[-1] }}'
-    - 'linux-headers-{{ virtual_box_installed_kernel.stdout_lines[-1] }}-generic'
     - linux-headers-generic 
     - make 
     - patch 
