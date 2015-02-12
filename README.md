@@ -19,6 +19,11 @@ Create environment for a vagrant base box.
 
 Include `cw.vagrant-box` role to your playbook.
 
+If you install a new machine using the *chroot* method with the
+[system-install](https://github.com/cw-ansible/system-install) role, please
+note that you need to first reboot the machine before running
+`cw.vagrant-box`.
+
 ## Description
 
 This module will install `vagrant` user as described in the
