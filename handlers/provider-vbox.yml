@@ -10,11 +10,6 @@
 # interested in it (and providing full binary packages).
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=554843
 
-- name: Mount /proc
-  command:
-    mount -t proc proc /proc
-    creates=/proc/version
-
 - name: install virtualbox kernel builders
   apt: pkg='{{item}}' install_recommends=no update_cache=yes cache_valid_time=3600
   with_items:

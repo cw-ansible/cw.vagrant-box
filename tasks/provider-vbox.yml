@@ -5,6 +5,11 @@
     ls -1 -X /lib/modules/ | sort -g
   changed_when: False
 
+- name: Mount /proc
+  command:
+    mount -t proc proc /proc
+    creates=/proc/version
+
 - name: install virtualbox utils
   apt: pkg='{{item}}' install_recommends=no update_cache=yes cache_valid_time=3600
   with_items:
