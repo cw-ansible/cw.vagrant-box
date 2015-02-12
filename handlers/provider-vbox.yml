@@ -19,12 +19,12 @@
 
 - name: Create vbox kernel module directory
   shell:
-    mkdir -p '/lib/modules/{{ virtual_box_installed_kernel.stdout_lines[-1] }}/kernel/vbox'
+    mkdir -p /lib/modules/{{ virtual_box_installed_kernel.stdout_lines[-1] }}/kernel/vbox
   notify: copy virtualbox kernel modules
 
 - name: copy virtualbox kernel modules
   shell:
-    cp '/lib/modules/{{ virtual_box_installed_kernel.stdout_lines[-1] }}/updates/dkms/vbox*.ko' '/lib/modules/{{ virtual_box_installed_kernel.stdout_lines[-1] }}/kernel/vbox'
+    cp /lib/modules/{{ virtual_box_installed_kernel.stdout_lines[-1] }}/updates/dkms/vbox*.ko /lib/modules/{{ virtual_box_installed_kernel.stdout_lines[-1] }}/kernel/vbox
   notify: remove build packages
 
 - name: remove build packages
