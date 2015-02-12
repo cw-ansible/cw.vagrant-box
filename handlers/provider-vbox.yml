@@ -18,12 +18,13 @@
   notify: Create vbox kernel module directory
 
 - name: Create vbox kernel module directory
-  shell: mkdir -p /lib/modules/`uname -r`/kernel/vbox
+  shell:
+    mkdir -p /lib/modules/{{ virtual_box_installed_kernel.stdout_lines[-1] }}/kernel/vbox
   notify: copy virtualbox kernel modules
 
 - name: copy virtualbox kernel modules
   shell:
-    cp /lib/modules/`uname -r`/updates/dkms/vbox*.ko /lib/modules/`uname -r`/kernel/vbox
+    cp /lib/modules/{{ virtual_box_installed_kernel.stdout_lines[-1] }}/updates/dkms/vbox*.ko /lib/modules/{{ virtual_box_installed_kernel.stdout_lines[-1] }}/kernel/vbox
   notify: remove build packages
 
 - name: remove build packages
@@ -47,8 +48,8 @@
     - libmpfr4 
     - libquadmath0 
     - libtsan0 
-    - linux-headers-3.11.0-12 
-    - linux-headers-3.11.0-12-generic 
+    - 'linux-headers-{{ virtual_box_installed_kernel.stdout_lines[-1] | regex_replace("-generic$", "")}}'
+    - 'linux-headers-{{ virtual_box_installed_kernel.stdout_lines[-1] }}'
     - linux-headers-generic 
     - make 
     - patch 
