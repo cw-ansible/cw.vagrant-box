@@ -30,7 +30,6 @@
 - name: remove build packages
   apt: pkg='{{ item }}' purge=yes state=removed
   with_items:
-    - binutils
     - cpp 
     - cpp-4.8 
     - dkms 
