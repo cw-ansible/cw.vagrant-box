@@ -1,7 +1,8 @@
 ---
 
 - include: provider-vbox.yml
-
+  when: vagrant_install_provider_vbox
+  
 - name: install OpenSSH server
   apt: pkg='{{item}}' install_recommends=no update_cache=yes cache_valid_time=3600
   with_items:

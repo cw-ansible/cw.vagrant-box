@@ -1,0 +1,7 @@
+---
+
+
+# Install Vagrant Provider for VirtualBox.
+#
+# Disabled by default.
+vagrant_install_provider_vbox: no
